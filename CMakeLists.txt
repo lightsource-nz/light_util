@@ -5,8 +5,6 @@ project(light_util C CXX ASM)
 
 pico_sdk_init()
 
-add_subdirectory(demo)
-
 add_library(light_util INTERFACE)
 
 target_include_directories(
