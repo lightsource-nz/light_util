@@ -7,7 +7,8 @@
                 "long": "Include debug information",
                 "buildType": "Debug",
                 "settings": {
-                    "PICO_PLATFORM": "rp2040"
+                    "PICO_PLATFORM": "rp2040",
+                    "COMPILE_LOG_LEVEL": "DEBUG"
                 }
             },
             "debug-host": {
@@ -15,13 +16,27 @@
                 "long": "Include debug information",
                 "buildType": "Debug",
                 "settings": {
-                    "PICO_PLATFORM": "host"
+                    "PICO_PLATFORM": "host",
+                    "COMPILE_LOG_LEVEL": "DEBUG"
+                }
+            },
+            "trace-host": {
+                "short": "Trace - Host",
+                "long": "Trace logging messages enabled",
+                "buildType": "Debug",
+                "settings": {
+                    "PICO_PLATFORM": "host",
+                    "COMPILE_LOG_LEVEL": "TRACE"
                 }
             },
             "release": {
                 "short": "Release",
                 "long": "Optimize for speed- exclude debug information",
-                "buildType": "Release"
+                "buildType": "Release",
+                "settings": {
+                    "PICO_PLATFORM": "rp2040",
+                    "COMPILE_LOG_LEVEL": "INFO"
+                }
             }
         }
     }

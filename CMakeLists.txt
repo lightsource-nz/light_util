@@ -5,6 +5,8 @@ project(light_util C CXX ASM)
 
 pico_sdk_init()
 
+add_subdirectory(demo)
+
 add_library(light_util INTERFACE)
 
 target_include_directories(
@@ -18,6 +20,15 @@ target_sources(
     INTERFACE
     ${CMAKE_CURRENT_LIST_DIR}/src/light_util.c
 )
+
+if(DEFINED COMPILE_LOG_LEVEL)
+    message("COMPILE_LOG_LEVEL is set to ${COMPILE_LOG_LEVEL}")
+    target_compile_definitions(
+        light_util
+        INTERFACE
+        FILTER_LOG_LEVEL=${COMPILE_LOG_LEVEL}
+    )
+endif()
 
 if(DEFINED LIGHT_API_TRACE)
     target_compile_definitions(

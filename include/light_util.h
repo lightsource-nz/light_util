@@ -4,6 +4,54 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdarg.h>
+
+// by default, compile in only INFO level messages and above
+#ifndef FILTER_LOG_LEVEL
+#       define FILTER_LOG_LEVEL INFO
+#endif
+
+#define LOG_TRACE 4
+#define LOG_DEBUG 3
+#define LOG_INFO 2
+#define LOG_WARN 1
+#define LOG_ERROR 0
+
+#define _GET_LOG_LEVEL(level) LOG_## level
+#define GET_LOG_LEVEL(level) _GET_LOG_LEVEL(level)
+
+#define LIGHT_MAX_LOG_LEVEL GET_LOG_LEVEL(FILTER_LOG_LEVEL)
+
+#define LIGHT_LOG_BUFFER_SIZE 128
+
+
+#if (LIGHT_MAX_LOG_LEVEL >= LOG_TRACE)
+#define light_trace(format, ...) light_log_internal(LOG_TRACE, format, __VA_ARGS__)
+#else
+#define light_trace(format, ...)
+#endif
+#if (LIGHT_MAX_LOG_LEVEL >= LOG_DEBUG)
+#define light_debug(format, ...) light_log_internal(LOG_DEBUG, format, __VA_ARGS__)
+#else
+#define light_debug(format, ...)
+#endif
+#if (LIGHT_MAX_LOG_LEVEL >= LOG_INFO)
+#define light_info(format, ...) light_log_internal(LOG_INFO, format, __VA_ARGS__)
+#else
+#define light_info(format, ...)
+#endif
+#if (LIGHT_MAX_LOG_LEVEL >= LOG_WARN)
+#define light_warn(format, ...) light_log_internal(LOG_WARN, format, __VA_ARGS__)
+#else
+#define light_warn(format, ...)
+#endif
+#if (LIGHT_MAX_LOG_LEVEL >= LOG_ERROR)
+#define light_error(format, ...) light_log_internal(LOG_ERROR, format, __VA_ARGS__)
+#else
+#define light_error(format, ...)
+#endif
+#define light_fatal(format, ...) \
+        do { light_log_internal(LOG_ERROR, format, __VA_ARGS__); panic(format, __VA_ARGS__); } while(0)
 
 // type manipulation macros shamelessly borrowed from the Linux kernel
 #define container_of(ptr, type, member) ({                          \
@@ -18,5 +66,7 @@
 #endif
 
 extern void light_util_init();
+extern const uint8_t *light_log_level_to_string(uint8_t level);
+extern void light_log_internal(const uint8_t level, const uint8_t *format, ...);
 
 #endif
