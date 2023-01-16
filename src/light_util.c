@@ -18,6 +18,21 @@ void light_util_init()
 {
 
 }
+const uint8_t *light_error_to_string(uint8_t level)
+{
+        switch (level) {
+        case LIGHT_OK:
+                return "LIGHT_OK";
+        case LIGHT_INVALID:
+                return "LIGHT_INVALID";
+        case LIGHT_NO_MEMORY:
+                return "LIGHT_NO_MEMORY";
+        case LIGHT_NO_RESOURCE:
+                return "LIGHT_NO_RESOURCE";
+        default:
+                return "UNDEFINED";
+        }
+}
 const uint8_t *light_log_level_to_string(uint8_t level)
 {
         switch (level) {
@@ -34,9 +49,9 @@ const uint8_t *light_log_level_to_string(uint8_t level)
         }
 }
 
-void light_log_internal(const uint8_t level, const uint8_t *format, ...)
+void light_log_internal(const uint8_t level, const uint8_t *func, const uint8_t *format, ...)
 {
-        snprintf(log_buffer, LIGHT_LOG_BUFFER_SIZE, "[%7s]: ", light_log_level_to_string(level));
+        snprintf(log_buffer, LIGHT_LOG_BUFFER_SIZE, "[%7s] %s: ", light_log_level_to_string(level), func);
         printf(log_buffer);
 
         va_list args;
