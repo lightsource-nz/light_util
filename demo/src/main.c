@@ -17,5 +17,5 @@ int main(int argc, char *argv[])
     light_info(format, "info");
     light_debug(format, "debug");
     light_trace(format, "trace");
-    printf("LIGHT_MAX_LOG_LEVEL=%d\n", LIGHT_MAX_LOG_LEVEL);
+    printf("LIGHT_MAX_LOG_LEVEL=%s\n", light_log_level_to_string(LIGHT_MAX_LOG_LEVEL));
 }
