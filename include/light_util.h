@@ -6,6 +6,8 @@
 #include <stdbool.h>
 #include <stdarg.h>
 
+#include <light_util_compiler.h>
+
 #define LIGHT_OK                        (uint8_t) 0x0u
 #define LIGHT_INVALID                   (uint8_t) 0x1u
 #define LIGHT_NO_MEMORY                 (uint8_t) 0x2u
