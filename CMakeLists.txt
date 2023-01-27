@@ -38,7 +38,9 @@ if(DEFINED LIGHT_API_TRACE)
     )
 endif()
 
+# pico_platform must be linked to correctly define PICO_RP2040 in on-device builds
 target_link_libraries(
     light_util
     INTERFACE
+    pico_platform
 )
