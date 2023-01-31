@@ -18,6 +18,14 @@ void light_util_init()
 {
 
 }
+void *light_alloc(size_t size)
+{
+        return malloc(size);
+}
+void light_free(void *obj)
+{
+        free(obj);
+}
 const uint8_t *light_error_to_string(uint8_t level)
 {
         switch (level) {

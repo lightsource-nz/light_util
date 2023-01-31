@@ -78,4 +78,8 @@ extern void light_util_init();
 extern const uint8_t *light_log_level_to_string(uint8_t level);
 extern void light_log_internal(const uint8_t level,const uint8_t *func, const uint8_t *format, ...);
 
+// mapped to default malloc/free routines for platform
+extern void *light_alloc(size_t size);
+extern void light_free(void *obj);
+
 #endif
