@@ -8,12 +8,62 @@
 
 #include <light_util_compiler.h>
 
-#define LIGHT_OK                        (uint8_t) 0x0u
-#define LIGHT_INVALID                   (uint8_t) 0x1u
-#define LIGHT_NO_MEMORY                 (uint8_t) 0x2u
-#define LIGHT_NO_RESOURCE               (uint8_t) 0x3u
+// -- IMPORTANT - PLEASE NOTE --
+// by default, we disable all logging and debug features, as these may create
+// performance issues or security vulnerabilities if left enabled accidentally
+#ifndef RUN_MODE
+#define RUN_MODE PRODUCTION
+#endif
 
-extern const uint8_t *light_error_to_string(uint8_t level);
+#define MODE_PRODUCTION         0
+#define MODE_TEST               1
+#define MODE_DEVELOPMENT        2
+#define MODE_DEBUG              3
+#define MODE_TRACE              4
+
+#define _GET_RUN_MODE(mode) MODE_## mode
+#define GET_RUN_MODE(mode) _GET_RUN_MODE(mode)
+
+#define LIGHT_RUN_MODE GET_RUN_MODE(RUN_MODE)
+
+// production mode means everything is locked down tight,
+// for maximum performance and security
+#if (LIGHT_RUN_MODE = MODE_PRODUCTION)
+#       ifndef FILTER_LOG_LEVEL
+#               define FILTER_LOG_LEVEL DISABLE
+#       endif
+#       ifndef LIGHT_DEBUG_ENABLE
+#               define LIGHT_DEBUG_ENABLE 0
+#       endif
+#       ifndef LIGHT_TRACE_ENABLE
+#               define LIGHT_TRACE_ENABLE 0
+#       endif
+// testing mode means we want t0 report warnings and errors
+// while keeping optimization at (hopefully) near-production levels
+#elif (LIGHT_RUN_MODE = MODE_TEST)
+#       ifndef FILTER_LOG_LEVEL
+#               define FILTER_LOG_LEVEL WARN
+#       endif
+#       ifndef LIGHT_DEBUG_ENABLE
+#               define LIGHT_DEBUG_ENABLE 0
+#       endif
+#       ifndef LIGHT_TRACE_ENABLE
+#               define LIGHT_TRACE_ENABLE 0
+#       endif
+
+// development mode means we want readable and informative log messages,
+// without noisy debug output
+#elif (LIGHT_RUN_MODE = MODE_TEST)
+#       ifndef FILTER_LOG_LEVEL
+#               define FILTER_LOG_LEVEL WARN
+#       endif
+#       ifndef LIGHT_DEBUG_ENABLE
+#               define LIGHT_DEBUG_ENABLE 0
+#       endif
+#       ifndef LIGHT_TRACE_ENABLE
+#               define LIGHT_TRACE_ENABLE 0
+#       endif
+#endif
 
 // by default, compile in only INFO level messages and above
 #ifndef FILTER_LOG_LEVEL
@@ -25,6 +75,7 @@ extern const uint8_t *light_error_to_string(uint8_t level);
 #define LOG_INFO 2
 #define LOG_WARN 1
 #define LOG_ERROR 0
+#define LOG_DISABLE -1
 
 #define _GET_LOG_LEVEL(level) LOG_## level
 #define GET_LOG_LEVEL(level) _GET_LOG_LEVEL(level)
@@ -74,7 +125,14 @@ extern const uint8_t *light_error_to_string(uint8_t level);
 # define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
 #endif
 
+#define LIGHT_OK                        (uint8_t) 0x0u
+#define LIGHT_INVALID                   (uint8_t) 0x1u
+#define LIGHT_NO_MEMORY                 (uint8_t) 0x2u
+#define LIGHT_NO_RESOURCE               (uint8_t) 0x3u
+
 extern void light_util_init();
+extern const uint8_t *light_error_to_string(uint8_t level);
+extern const uint8_t *light_run_mode_to_string(uint8_t mode);
 extern const uint8_t *light_log_level_to_string(uint8_t level);
 extern void light_log_internal(const uint8_t level,const uint8_t *func, const uint8_t *format, ...);
 
