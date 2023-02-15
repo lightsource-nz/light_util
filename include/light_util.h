@@ -28,7 +28,7 @@
 
 // production mode means everything is locked down tight,
 // for maximum performance and security
-#if (LIGHT_RUN_MODE = MODE_PRODUCTION)
+#if (LIGHT_RUN_MODE == MODE_PRODUCTION)
 #       ifndef FILTER_LOG_LEVEL
 #               define FILTER_LOG_LEVEL DISABLE
 #       endif
@@ -40,7 +40,7 @@
 #       endif
 // testing mode means we want t0 report warnings and errors
 // while keeping optimization at (hopefully) near-production levels
-#elif (LIGHT_RUN_MODE = MODE_TEST)
+#elif (LIGHT_RUN_MODE == MODE_TEST)
 #       ifndef FILTER_LOG_LEVEL
 #               define FILTER_LOG_LEVEL WARN
 #       endif
@@ -50,12 +50,11 @@
 #       ifndef LIGHT_TRACE_ENABLE
 #               define LIGHT_TRACE_ENABLE 0
 #       endif
-
 // development mode means we want readable and informative log messages,
 // without noisy debug output
-#elif (LIGHT_RUN_MODE = MODE_TEST)
+#elif (LIGHT_RUN_MODE == MODE_DEVELOPMENT)
 #       ifndef FILTER_LOG_LEVEL
-#               define FILTER_LOG_LEVEL WARN
+#               define FILTER_LOG_LEVEL INFO
 #       endif
 #       ifndef LIGHT_DEBUG_ENABLE
 #               define LIGHT_DEBUG_ENABLE 0
@@ -63,11 +62,29 @@
 #       ifndef LIGHT_TRACE_ENABLE
 #               define LIGHT_TRACE_ENABLE 0
 #       endif
-#endif
-
-// by default, compile in only INFO level messages and above
-#ifndef FILTER_LOG_LEVEL
-#       define FILTER_LOG_LEVEL INFO
+// debug mode - verbose diagnostic output, and
+// enable sanity checking assertions
+#elif (LIGHT_RUN_MODE == MODE_DEBUG)
+#       ifndef FILTER_LOG_LEVEL
+#               define FILTER_LOG_LEVEL DEBUG
+#       endif
+#       ifndef LIGHT_DEBUG_ENABLE
+#               define LIGHT_DEBUG_ENABLE 1
+#       endif
+#       ifndef LIGHT_TRACE_ENABLE
+#               define LIGHT_TRACE_ENABLE 0
+#       endif
+// trace mode - maximum logging verbosity
+#elif (LIGHT_RUN_MODE == MODE_TRACE)
+#       ifndef FILTER_LOG_LEVEL
+#               define FILTER_LOG_LEVEL TRACE
+#       endif
+#       ifndef LIGHT_DEBUG_ENABLE
+#               define LIGHT_DEBUG_ENABLE 1
+#       endif
+#       ifndef LIGHT_TRACE_ENABLE
+#               define LIGHT_TRACE_ENABLE 1
+#       endif
 #endif
 
 #define LOG_TRACE 4

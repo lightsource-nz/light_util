@@ -21,6 +21,18 @@ target_sources(
     ${CMAKE_CURRENT_LIST_DIR}/src/light_util.c
 )
 
+# mode defaults to production
+if(NOT DEFINED LIGHT_RUN_MODE)
+    message("LIGHT_RUN_MODE not set, defaulting to PRODUCTION")
+    set(LIGHT_RUN_MODE PRODUCTION)
+else()
+    message("LIGHT_RUN_MODE is set to ${LIGHT_RUN_MODE}")
+endif()
+
+target_compile_definitions(
+    light_util INTERFACE
+    RUN_MODE=${LIGHT_RUN_MODE}
+)
 if(DEFINED COMPILE_LOG_LEVEL)
     message("COMPILE_LOG_LEVEL is set to ${COMPILE_LOG_LEVEL}")
     target_compile_definitions(
