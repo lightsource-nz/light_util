@@ -19,6 +19,7 @@ target_sources(
     light_util
     INTERFACE
     ${CMAKE_CURRENT_LIST_DIR}/src/light_util.c
+    ${CMAKE_CURRENT_LIST_DIR}/src/list.c
 )
 
 # mode defaults to production

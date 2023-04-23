@@ -1,6 +1,6 @@
 /*
- *  light_object.c
- *  core definitions for the light object model
+ *  light_util.c
+ *  common utility routines and data types for lightsource.nz projects
  * 
  *  authored by Alex Fulton
  *  created january 2023
