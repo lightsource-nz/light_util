@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdarg.h>
+#include <assert.h>
 
 #include <light_util_compiler.h>
 

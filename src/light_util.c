@@ -41,6 +41,23 @@ const uint8_t *light_error_to_string(uint8_t level)
                 return "UNDEFINED";
         }
 }
+const uint8_t *light_run_mode_to_string(uint8_t level)
+{
+        switch (level) {
+        case MODE_PRODUCTION:
+                return "PRODUCTION";
+        case MODE_TEST:
+                return "TEST";
+        case MODE_DEVELOPMENT:
+                return "DEVELOPMENT";
+        case MODE_DEBUG:
+                return "DEBUG";
+        case MODE_TRACE:
+                return "TRACE";
+        default:
+                return "UNDEFINED";
+        }
+}
 const uint8_t *light_log_level_to_string(uint8_t level)
 {
         switch (level) {
@@ -54,6 +71,8 @@ const uint8_t *light_log_level_to_string(uint8_t level)
                 return "WARNING";
         case LOG_ERROR:
                 return "ERROR";
+        default:
+                return "UNDEFINED";
         }
 }
 
